@@ -1,28 +1,43 @@
 import os
 
-products = []
-if os.path.isfile('product.csv'): #檢查存不存在
 #讀取檔案
-	with open('product.csv', 'r', encoding = 'utf-8') as f:
-		for line in f:
-			if '商品,價格' in line:#跳過第一行
-				continue
-			name, price = line.strip().split(',')
-			products.append([name,price])
-else:
-	print('找不到檔案')
-#寫入檔案
-while True:
-	name = input('請輸入商品名稱: ')
-	if name =='q':		
-		break
-	price = input('請輸入價格: ')
-	products.append([name, price])
+def read_file(filename):
+	products = []
+	if os.path.isfile(filename): #檢查存不存在
+		with open(filename, 'r', encoding = 'utf-8') as f:
+			for line in f:
+				if '商品,價格' in line:#跳過第一行
+					continue
+				name, price = line.strip().split(',')
+				products.append([name,price])
+	else:
+		print('找不到檔案')
+	return products
 
-for n,p in products:
-	print('商品: %s 價格: %s ' %(n,p))
+#使用者輸入
+def input_products(products):
+	while True:
+		name = input('請輸入商品名稱: ')
+		if name =='q':		
+			break
+		price = input('請輸入價格: ')
+		products.append([name, price])
+	return products
 
-with open('product.csv','w', encoding = 'utf-8') as f:
-	f.write('商品,價格\n')
+#商品紀錄
+def products_information(products):
 	for n,p in products:
-		f.write('%s,%s\n'  %(n,p)) 
+		print('商品: %s 價格: %s ' %(n,p))
+
+#寫入檔案
+def wirte_file(filename, products):
+	with open('product.csv','w', encoding = 'utf-8') as f:
+		f.write('商品,價格\n')
+		for n,p in products:
+			f.write('%s,%s\n'  %(n,p)) 
+
+filename = input("輸入檔案位置").strip()
+products = read_file(filename)
+products = input_products(products)
+products_information(products)
+wirte_file(filename, products)
