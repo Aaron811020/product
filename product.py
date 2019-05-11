@@ -9,3 +9,6 @@ while True:
 for n,p in products:
 	print("商品: %s 價格: %s " %(n,p))
 
+with open('product.csv','w') as f:
+	for n,p in products:
+		f.write("%s,%s \n"  %(n,p)) 
