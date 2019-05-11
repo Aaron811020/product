@@ -6,4 +6,6 @@ while True:
 	price = input("請輸入價格: ")
 	products.append([name, price])
 
-print(products)
+for n,p in products:
+	print("商品: %s 價格: %s " %(n,p))
+
