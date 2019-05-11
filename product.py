@@ -3,17 +3,14 @@ import os
 #讀取檔案
 def read_file(filename):
 	products = []
-	if os.path.isfile(filename): #檢查存不存在
-		with open(filename, 'r', encoding = 'utf-8') as f:
-			for line in f:
-				if '商品,價格' in line:#跳過第一行
-					continue
-				name, price = line.strip().split(',')
-				products.append([name,price])
-	else:
-		print('找不到檔案')
-	return products
-
+	with open(filename, 'r', encoding = 'utf-8') as f:
+		for line in f:
+			if '商品,價格' in line:#跳過第一行
+				continue
+			name, price = line.strip().split(',')
+			products.append([name,price])
+	return products	
+	
 #使用者輸入
 def input_products(products):
 	while True:
@@ -36,8 +33,18 @@ def wirte_file(filename, products):
 		for n,p in products:
 			f.write('%s,%s\n'  %(n,p)) 
 
-filename = input("輸入檔案位置").strip()
-products = read_file(filename)
-products = input_products(products)
-products_information(products)
-wirte_file(filename, products)
+
+def main():
+	filename = input("輸入檔案位置").strip()
+
+	if os.path.isfile(filename): #檢查存不存在
+		print("找到檔案了")
+		products = read_file(filename)	
+	else:
+		print('找不到檔案')
+
+	products = input_products(products)
+	products_information(products)
+	wirte_file(filename, products)
+
+main()
